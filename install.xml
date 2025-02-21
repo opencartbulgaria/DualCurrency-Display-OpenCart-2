@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Currency EURO - (OpenCart Bulgaria)</name>
+    <code>OpenCartBG0050</code>
+    <version>v2.3.0</version>
+    <author><![CDATA[<a href="https://opencartbulgaria.com" target="_blank"><b>OpenCart Bulgaria</b></a>]]></author>
+    <link>https://opencartbulgaria.com/</link>
+
+    <file path="system/library/cart/currency.php">
+        <operation>
+            <search><![CDATA[$this->language = $registry->get('language');]]></search>
+            <add position="after"><![CDATA[
+                $this->config = $registry->get('config');
+            ]]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA[return $string;]]></search>
+            <add position="before"><![CDATA[
+                        if(!empty($this->config->get('currency_status'))
+                            && $this->config->get('currency_rate')
+                            && $this->config->get('config_currency') == $currency
+                        ) {
+                            $euro_amount = $amount / $this->config->get('currency_rate');
+                            $string .= " (" . number_format($euro_amount, (int)$decimal_place, $this->language->get('decimal_point'), $this->language->get('thousand_point')) . "€)";
+                        }
+            ]]></add>
+        </operation>
+    </file>
+
+</modification>

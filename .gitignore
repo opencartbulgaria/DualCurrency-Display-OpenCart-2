@@ -1,0 +1,5 @@
+# Ignore some IDE folders
+.idea
+node_modules
+vendor
+dist/**
